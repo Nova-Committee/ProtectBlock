@@ -18,7 +18,7 @@ public class Const {
     public static final String MOD_ID = "pb";
     public static final String MOD_NAME = "ProtectBlock";
     public static final Logger LOGGER = LogManager.getLogger();
-    //public static final String DEPENDENCIES = "required-after:mixinbooter";
+    public static final String DEPENDENCIES = "required-after:mixinbooter";
     public static Gson GSON = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
     public static ResourceLocation rl(String name){
         return new ResourceLocation(MOD_ID, name);
