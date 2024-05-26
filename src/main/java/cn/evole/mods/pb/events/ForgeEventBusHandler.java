@@ -4,8 +4,10 @@ import cn.evole.mods.pb.api.security.ISecurity;
 import cn.evole.mods.pb.init.ModRegistries;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.GameType;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -38,43 +40,48 @@ public class ForgeEventBusHandler {
     @SubscribeEvent
     public static void onBlockBreak(BlockEvent.BreakEvent event) {
         World world = event.getWorld();
-        EntityPlayer player = event.getPlayer();
+        EntityPlayer player1 = event.getPlayer();
         Block breakBlock = event.getState().getBlock();
         int x = event.getPos().getX();
         int z = event.getPos().getZ();
         int y = event.getPos().getY();
-        boolean flag = false;
 
-        if (breakBlock == ModRegistries.allowBlock || breakBlock == ModRegistries.denyBlock){
-            if (!player.isCreative()) flag = true;
-        } else if (breakBlock == ModRegistries.playerAllowBlock || breakBlock == ModRegistries.playerDenyBlock){
-            TileEntity tileEntity = world.getTileEntity(event.getPos());
-            if (tileEntity instanceof ISecurity) {
-                ISecurity security = (ISecurity) tileEntity;
-                if (security.getSecurityProfile().hasOwner() && !security.getSecurityProfile().isOwner(player.getGameProfile().getName())) flag = true;
-            }
-        } else {
-            for (int i = 0; i < y; i++){
-                BlockPos pos = new BlockPos(x, i, z);
-                Block eachBock = world.getBlockState(pos).getBlock();
-                TileEntity tileEntity = world.getTileEntity(pos);
-                if (eachBock.isAssociatedBlock(ModRegistries.playerDenyBlock)){
-                    if (tileEntity instanceof ISecurity) {
-                        ISecurity security = (ISecurity) tileEntity;
-                        if (player.isCreative()) {
-                            flag = false;
-                        } else if (security.getSecurityProfile().hasOwner() && !security.getSecurityProfile().isOwner(player.getGameProfile().getName())) {
-                            flag = isAllowBlock(i, y , x, z, world, player);
-                        }
-                    }
-                } else if (eachBock.isAssociatedBlock(ModRegistries.denyBlock)){
-                    flag = isAllowBlock(i, y , x, z, world, player);
-
+        if (world.isRemote) return;
+        if (player1 instanceof EntityPlayerMP){
+            EntityPlayerMP player = (EntityPlayerMP) player1;
+            if (player.interactionManager.getGameType().hasLimitedInteractions()) return;
+            boolean flag = false;
+            if (breakBlock == ModRegistries.allowBlock || breakBlock == ModRegistries.denyBlock){
+                if (!player.isCreative()) flag = true;
+            } else if (breakBlock == ModRegistries.playerAllowBlock || breakBlock == ModRegistries.playerDenyBlock){
+                TileEntity tileEntity = world.getTileEntity(event.getPos());
+                if (tileEntity instanceof ISecurity) {
+                    ISecurity security = (ISecurity) tileEntity;
+                    if (security.getSecurityProfile().hasOwner() && !security.getSecurityProfile().isOwner(player.getGameProfile().getName())) flag = true;
                 }
-            }
+            } else {
+                for (int i = 0; i < y; i++){
+                    BlockPos pos = new BlockPos(x, i, z);
+                    Block eachBock = world.getBlockState(pos).getBlock();
+                    TileEntity tileEntity = world.getTileEntity(pos);
+                    if (eachBock.isAssociatedBlock(ModRegistries.playerDenyBlock)){
+                        if (tileEntity instanceof ISecurity) {
+                            ISecurity security = (ISecurity) tileEntity;
+                            if (player.isCreative()) {
+                                flag = false;
+                            } else if (security.getSecurityProfile().hasOwner() && !security.getSecurityProfile().isOwner(player.getGameProfile().getName())) {
+                                flag = isAllowBlock(i, y , x, z, world, player);
+                            }
+                        }
+                    } else if (eachBock.isAssociatedBlock(ModRegistries.denyBlock)){
+                        flag = isAllowBlock(i, y , x, z, world, player);
 
+                    }
+                }
+
+            }
+            if (flag) {event.setCanceled(flag);}
         }
-        event.setCanceled(flag);
     }
 
     private static boolean isAllowBlock(int start, int end, int posX, int posZ, World world, EntityPlayer player){
