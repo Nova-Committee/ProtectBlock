@@ -1,0 +1,46 @@
+{
+  "group": "pb",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "012",
+    "345",
+    "678"
+  ],
+  "key": {
+    "0": {
+      "item": "minecraft:iron_ingot"
+    },
+    "1": {
+      "item": "minecraft:log",
+      "data": 0
+    },
+    "2": {
+      "item": "minecraft:iron_ingot"
+    },
+    "3": {
+      "item": "minecraft:log",
+      "data": 0
+    },
+    "4": {
+      "item": "minecraft:obsidian"
+    },
+    "5": {
+      "item": "minecraft:log",
+      "data": 0
+    },
+    "6": {
+      "item": "minecraft:iron_ingot"
+    },
+    "7": {
+      "item": "minecraft:log",
+      "data": 0
+    },
+    "8": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "pb:player_allow",
+    "count": 1
+  }
+}

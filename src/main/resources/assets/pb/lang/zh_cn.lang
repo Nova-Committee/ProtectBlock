@@ -1,0 +1,6 @@
+itemGroup.pb=保护方块
+tile.pb.deny.name=拒止方块
+tile.pb.allow.name=允许方块
+tile.pb.player_deny.name=玩家拒止方块
+tile.pb.player_allow.name=玩家允许方块
+

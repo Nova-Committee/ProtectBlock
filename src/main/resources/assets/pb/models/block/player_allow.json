@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "pb:blocks/player_allow",
+    "particle": "pb:blocks/player_allow"
+  }
+}

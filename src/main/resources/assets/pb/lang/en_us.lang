@@ -1,0 +1,6 @@
+itemGroup.pb=Protect Block
+tile.pb.deny.name=Deny Block
+tile.pb.allow.name=Allow Block
+tile.pb.player_deny.name=Player Deny Block
+tile.pb.player_allow.name=Player Allow Block
+
