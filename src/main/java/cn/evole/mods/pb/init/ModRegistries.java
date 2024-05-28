@@ -48,8 +48,8 @@ public class ModRegistries {
     {
 
         event.getRegistry().registerAll(
-                denyBlock = new BaseBlock("deny").setResistance(6000000.0F),
-                allowBlock = new BaseBlock("allow").setResistance(6000000.0F),
+                denyBlock = new BaseBlock("deny").setHardness(6000000.0F),
+                allowBlock = new BaseBlock("allow").setHardness(6000000.0F),
                 playerDenyBlock = new BaseTileBlock("player_deny"),
                 playerAllowBlock = new BaseTileBlock("player_allow")
 

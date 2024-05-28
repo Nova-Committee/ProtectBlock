@@ -74,8 +74,8 @@ mixin {
 jar {
     manifest {
         attributes([
-                //"FMLCorePlugin": "cn.evole.mods.optifinechange.EarlyMixinInit",
-                //"FMLCorePluginContainsFMLMod": true,
+//                "FMLCorePlugin": "cn.evole.mods.optifinechange.EarlyMixinInit",
+//                "FMLCorePluginContainsFMLMod": true,
                 "Specification-Title"     : "${mod_name}",
                 "Specification-Vendor"    : "${mod_author}",
                 "Specification-Version"   : "1", // We are version 1 of ourselves
